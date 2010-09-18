@@ -1,0 +1,28 @@
+Subcommand
+==========
+
+A minimal command line parser for subcommands.
+
+* Subcommand parses commands of type "COMMAND SUBCOMMAND ARG1 ARG2 ...".
+* No switches are supported (like -v)
+* Last argument can be made optional by surrounding it with []
+* Default command can be set. It's called when user runs the executable
+  with no arguments.
+
+An example:
+
+sub = Subcommand.new
+
+sub.register('create', ['TITLE'], 'Create TODO item with title TITLE.') do |title|
+  Todo.create!(title)
+end
+
+sub.register('list', [], 'List all TODO items.') do
+  list_all_todos
+end
+
+sub.default do
+  sub.subs['list'].blk.call
+end
+
+sub.parse
