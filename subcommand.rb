@@ -52,7 +52,14 @@ class Subcommand
   
   # Set the default command to be called when just the executable is run.
   def default(&blk)
+    raise "No block given" unless blk
     @default = blk
+  end
+  
+  # Set the default command to be one of the registered subcommands
+  def default=(cmd_name)
+    raise "No subcommand #{cmd_name} registerd" if @subs[cmd_name].nil?
+    @default = @subs[cmd_name].blk
   end
   
   # Parse command line arguments according to registered commands.

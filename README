@@ -21,8 +21,6 @@ sub.register('list', [], 'List all TODO items.') do
   list_all_todos
 end
 
-sub.default do
-  sub.subs['list'].blk.call
-end
+sub.default = 'list'
 
 sub.parse
